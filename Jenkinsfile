@@ -15,7 +15,9 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME:latest .'
+                sh """
+                   docker build -t ${IMAGE_NAME}:latest .
+                """
             }
         }
 
@@ -23,9 +25,9 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                     sh """
-                    echo $PASS | docker login -u $USER --password-stdin
-                    docker tag $IMAGE_NAME:latest $DOCKERHUB_USERNAME/$IMAGE_NAME:latest
-                    docker push $DOCKERHUB_USERNAME/$IMAGE_NAME:latest
+                       echo $PASS | docker login -u $USER --password-stdin
+                       docker tag ${IMAGE_NAME}:latest ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest
+                       docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest
                     """
                 }
             }
@@ -33,10 +35,10 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh '''
-                kubectl delete deployment task-manager-deployment || true
-                kubectl apply -f deployment.yaml
-                '''
+                sh """
+                   kubectl delete deployment task-manager-deployment || true
+                   kubectl apply -f deployment.yaml
+                """
             }
         }
     }
