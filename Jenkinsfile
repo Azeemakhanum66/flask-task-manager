@@ -3,13 +3,13 @@ pipeline {
 
     environment {
         IMAGE_NAME = "task-manager-app"
-        DOCKERHUB_USERNAME = "your-dockerhub-username"
+        DOCKERHUB_USERNAME = "azeemakhanum"
     }
 
     stages {
         stage('Clone Repo') {
             steps {
-                git 'https://github.com/yourusername/your-repo.git'
+                git 'https://github.com/Azeemakhanum66/flask-task-manager.git'
             }
         }
 
