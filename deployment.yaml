@@ -13,7 +13,8 @@ spec:
         app: task-manager
     spec:
       containers:
-      - name: task-manager
+      - name: task-manager-container
         image: task-manager-app:latest
+        imagePullPolicy: Never
         ports:
         - containerPort: 5000
